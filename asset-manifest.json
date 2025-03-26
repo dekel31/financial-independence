@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/financial-independence/static/css/main.388ef8fe.css",
-    "main.js": "/financial-independence/static/js/main.c5c281ca.js",
+    "main.js": "/financial-independence/static/js/main.841d8d7b.js",
     "static/js/453.a7da6507.chunk.js": "/financial-independence/static/js/453.a7da6507.chunk.js",
     "index.html": "/financial-independence/index.html",
     "main.388ef8fe.css.map": "/financial-independence/static/css/main.388ef8fe.css.map",
-    "main.c5c281ca.js.map": "/financial-independence/static/js/main.c5c281ca.js.map",
+    "main.841d8d7b.js.map": "/financial-independence/static/js/main.841d8d7b.js.map",
     "453.a7da6507.chunk.js.map": "/financial-independence/static/js/453.a7da6507.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.388ef8fe.css",
-    "static/js/main.c5c281ca.js"
+    "static/js/main.841d8d7b.js"
   ]
 }
