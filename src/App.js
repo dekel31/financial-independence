@@ -1,5 +1,12 @@
 import React, { useState } from "react";
 
+/*remove double numbers (in input and beside "income")
+replace $ with Nis in Hebrew
+hint on mobile
+revise texts
+rtl when hebrew
+years to shanim in hebrew
+add NOW - and fix labels (infinity)*/
 const translations = {
   en: {
     title: "How far are you from financial independence?",
@@ -32,7 +39,10 @@ const FinancialIndependence = () => {
   const [numOfYears, setNumOfYears] = useState(10);
   const [startPosition, setStartPosition] = useState(0);
 
-  const surplusNeeded = ((expenses * 300) - ((income - expenses) * 12 * numOfYears) - startPosition) / (12 * numOfYears);
+  const moneyNeeded = expenses * 300;
+  const numOfMonthsToGoal = 12 * numOfYears;
+  const surplusEachMonth = (income - expenses) * numOfMonthsToGoal;
+  const surplusNeeded = moneyNeeded - startPosition > 0 ? ((moneyNeeded - surplusEachMonth - startPosition) / numOfMonthsToGoal) : 0;
 
   return (
     <div className="container">
@@ -93,7 +103,7 @@ const FinancialIndependence = () => {
         <label>{translations[language].independence} ({numOfYears} years)</label>
         <input
           type="range"
-          min="1"
+          min="0"
           max="30"
           value={numOfYears}
           onChange={(e) => setNumOfYears(Number(e.target.value))}
