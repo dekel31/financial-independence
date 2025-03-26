@@ -15,7 +15,8 @@ const translations = {
 	fail: "You are not financialy independent right now :(",
 	moreInfo: "More Info",
 	years: "years",
-	currency: "$"
+	currency: "$",
+	now: "Now"
   },
   he: {
     title: "כמה אתה רחוק מעצמאות כלכלית?",
@@ -30,7 +31,8 @@ const translations = {
 	fail: "אינך בעצמאות כלכלית כרגע :(",
 	moreInfo: "מידע נוסף",
     years: "שנים",
-	currency: "₪"
+	currency: "₪",
+	now: "עכשיו"
   }
 };
 
@@ -104,7 +106,14 @@ const FinancialIndependence = () => {
       </div>
 
       <div className={`input-container-${language === "he" ? "rtl" : "ltr"}`}>
-        <label>{translations[language].independence} ({numOfYears} {translations[language].years})</label>
+		<label>
+			{translations[language].independence}{" "}
+			{numOfYears !== 0
+			? <span style={{color: "#10b981", textWeight: "bold"}}>({numOfYears} {translations[language].years})</span>
+			: <span style={{color: "#10b981", textWeight: "bold"}}>{translations[language].now}</span>
+			}
+		</label>
+
         <input
           type="range"
           min="0"
