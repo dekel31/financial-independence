@@ -1,12 +1,6 @@
 import React, { useState } from "react";
 
-/*remove double numbers (in input and beside "income")
-replace $ with Nis in Hebrew
-hint on mobile
-revise texts
-rtl when hebrew
-years to shanim in hebrew
-add NOW - and fix labels (infinity)*/
+/*revise texts*/
 const translations = {
   en: {
     title: "How far are you from financial independence?",
@@ -17,7 +11,11 @@ const translations = {
     startPosition: "Starting capital",
     result: "You should increase your surplus by",
     months: "every month to achieve this.",
-    success: "You're on the right way! Your goal will be achieved by the desired time."
+    success: "You're on the right way! Your goal will be achieved by the desired time.",
+	fail: "You are not financialy independent right now :(",
+	moreInfo: "More Info",
+	years: "years",
+	currency: "$"
   },
   he: {
     title: "כמה אתה רחוק מעצמאות כלכלית?",
@@ -28,7 +26,11 @@ const translations = {
     startPosition: "הון ראשוני",
     result: "עליך להגדיל את העודף שלך ב-",
     months: "בכל חודש כדי להשיג זאת.",
-    success: "אתה בדרך הנכונה! המטרה שלך תושג בזמן הרצוי."
+    success: "אתה בדרך הנכונה! המטרה שלך תושג בזמן הרצוי.",
+	fail: "אינך בעצמאות כלכלית כרגע :(",
+	moreInfo: "מידע נוסף",
+    years: "שנים",
+	currency: "₪"
   }
 };
 
@@ -38,6 +40,7 @@ const FinancialIndependence = () => {
   const [expenses, setExpenses] = useState(7500);
   const [numOfYears, setNumOfYears] = useState(10);
   const [startPosition, setStartPosition] = useState(0);
+  const [showHint, setShowHint] = useState(false);
 
   const moneyNeeded = expenses * 300;
   const numOfMonthsToGoal = 12 * numOfYears;
@@ -45,7 +48,7 @@ const FinancialIndependence = () => {
   const surplusNeeded = moneyNeeded - startPosition > 0 ? ((moneyNeeded - surplusEachMonth - startPosition) / numOfMonthsToGoal) : 0;
 
   return (
-    <div className="container">
+    <div className="container" style={{ direction: language === "he" ? "rtl" : "ltr" }}>
       <div className="language-buttons">
         <button onClick={() => setLanguage("en")} className="language-btn">EN</button>
         <button onClick={() => setLanguage("he")} className="language-btn">HE</button>
@@ -53,8 +56,8 @@ const FinancialIndependence = () => {
 
       <h1>{translations[language].title}</h1>
 
-      <div className="input-container">
-        <label>{translations[language].startPosition}: {startPosition}</label>
+	  <div className={`input-container-${language === "he" ? "rtl" : "ltr"}`}>
+        <label>{translations[language].startPosition}:</label>
         <input
           type="number"
           value={startPosition}
@@ -63,8 +66,8 @@ const FinancialIndependence = () => {
         />
       </div>
 
-      <div className="input-container">
-        <label>{translations[language].income}: {income}</label>
+      <div className={`input-container-${language === "he" ? "rtl" : "ltr"}`}>
+        <label>{translations[language].income}:</label>
         <input
           type="number"
           value={income}
@@ -81,8 +84,9 @@ const FinancialIndependence = () => {
         />
       </div>
 
-      <div className="input-container">
-        <label>{translations[language].expenses}: {expenses} <span title={translations[language].expensesHint} className="hint">❓</span></label>
+      <div className={`input-container-${language === "he" ? "rtl" : "ltr"}`}>
+        <label>{translations[language].expenses}: <span onClick={() => setShowHint(!showHint)} className="hint-link">{translations[language].moreInfo}</span></label>
+        {showHint && <p className="hint-text">{translations[language].expensesHint}</p>}
         <input
           type="number"
           value={expenses}
@@ -99,8 +103,8 @@ const FinancialIndependence = () => {
         />
       </div>
 
-      <div className="input-container">
-        <label>{translations[language].independence} ({numOfYears} years)</label>
+      <div className={`input-container-${language === "he" ? "rtl" : "ltr"}`}>
+        <label>{translations[language].independence} ({numOfYears} {translations[language].years})</label>
         <input
           type="range"
           min="0"
@@ -114,8 +118,10 @@ const FinancialIndependence = () => {
       <div className="result">
         {surplusNeeded <= 0 ? (
           <span className="success-message">{translations[language].success}</span>
-        ) : (
-          <>{translations[language].result} <span className="surplus">${surplusNeeded.toFixed(2)}</span> {translations[language].months}</>
+        ) : surplusNeeded == Infinity ? (
+			<span className="fail-message">{translations[language].fail}</span>
+		) : (
+          <>{translations[language].result} <span className="surplus">{translations[language].currency}{surplusNeeded.toFixed(2)}</span> {translations[language].months}</>
         )}
       </div>
     </div>
